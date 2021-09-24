@@ -9,6 +9,52 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cppwinrt.prebuild", "cppwin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "cppwinrt.nuget", "cppwinrt.nuget\cppwinrt.nuget.csproj", "{E9A2CBB0-A77E-4A55-AC78-F145375F185A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{BB022645-CFBD-487C-A529-003C994F7E9A}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		..\nuget.config = ..\nuget.config
+		..\RepoRoot.props = ..\RepoRoot.props
+		..\version.json = ..\version.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "targets", "targets", "{C77AA6BE-CCA3-4FA4-893F-9E9C059C8165}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\Directory.Build.csproj.props = ..\build\Directory.Build.csproj.props
+		..\build\Directory.Build.csproj.targets = ..\build\Directory.Build.csproj.targets
+		..\build\Directory.Build.msbuildproj.props = ..\build\Directory.Build.msbuildproj.props
+		..\build\Directory.Build.msbuildproj.targets = ..\build\Directory.Build.msbuildproj.targets
+		..\build\Directory.Build.vcxproj.props = ..\build\Directory.Build.vcxproj.props
+		..\build\Directory.Build.vcxproj.targets = ..\build\Directory.Build.vcxproj.targets
+		..\build\Directory.Build.wapproj.props = ..\build\Directory.Build.wapproj.props
+		..\build\Directory.Build.wapproj.targets = ..\build\Directory.Build.wapproj.targets
+		..\build\Directory.Build.wixproj.props = ..\build\Directory.Build.wixproj.props
+		..\build\Directory.Build.wixproj.targets = ..\build\Directory.Build.wixproj.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "wixproj", "wixproj", "{D7004493-DDC0-45BE-A27A-5707BEA89BBC}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\wixproj\CustomAfter.targets = ..\build\wixproj\CustomAfter.targets
+		..\build\wixproj\wixproj.props = ..\build\wixproj\wixproj.props
+		..\build\wixproj\wixproj.targets = ..\build\wixproj\wixproj.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vcxproj", "vcxproj", "{EB870580-2895-4ED5-8794-7F635CD02524}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\vcxproj\DetectCI.props = ..\build\vcxproj\DetectCI.props
+		..\build\vcxproj\DeterministicBuild.props = ..\build\vcxproj\DeterministicBuild.props
+		..\build\vcxproj\DeterministicBuild.targets = ..\build\vcxproj\DeterministicBuild.targets
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "signing", "signing", "{B656CF5B-68E9-4009-844B-6520C0449059}"
+	ProjectSection(SolutionItems) = preProject
+		..\build\signing\CodeSigning.props = ..\build\signing\CodeSigning.props
+		..\build\signing\CodeSigning.targets = ..\build\signing\CodeSigning.targets
+		..\build\signing\CodeSigning.Tasks.targets = ..\build\signing\CodeSigning.Tasks.targets
+		..\build\signing\CodeSigning.Wix.targets = ..\build\signing\CodeSigning.Wix.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +100,12 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C77AA6BE-CCA3-4FA4-893F-9E9C059C8165} = {BB022645-CFBD-487C-A529-003C994F7E9A}
+		{D7004493-DDC0-45BE-A27A-5707BEA89BBC} = {C77AA6BE-CCA3-4FA4-893F-9E9C059C8165}
+		{EB870580-2895-4ED5-8794-7F635CD02524} = {C77AA6BE-CCA3-4FA4-893F-9E9C059C8165}
+		{B656CF5B-68E9-4009-844B-6520C0449059} = {C77AA6BE-CCA3-4FA4-893F-9E9C059C8165}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {80274D55-89E1-46DF-A717-6585C256712C}
