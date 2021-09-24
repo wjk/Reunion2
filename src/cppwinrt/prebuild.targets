@@ -1,0 +1,29 @@
+<Project>
+  <Target Name="PrepareCPPWinRTPrebuild">
+    <MSBuild Projects="..\cppwinrt.prebuild\cppwinrt.prebuild.vcxproj" Targets="BuiltProjectOutputGroup">
+      <Output TaskParameter="TargetOutputs" PropertyName="_PrebuildExe" />
+    </MSBuild>
+
+    <MSBuild Projects="..\cppwinrt.prebuild\cppwinrt.prebuild.vcxproj" Targets="Build"
+             Condition="!Exists('$(_PrebuildExe)')" />
+  </Target>
+
+  <Target Name="CppWinRTPrebuild" DependsOnTargets="PrepareCPPWinRTPrebuild" BeforeTargets="BuildGenerateSources">
+    <MakeDir Directories="$(IntDir)GeneratedSources" />
+    <Exec Command="&quot;$(_PrebuildExe)&quot; .\strings &quot;$(IntDir)GeneratedSources&quot;"
+          WorkingDirectory="$(MSBuildProjectDirectory)" Condition="Exists('$(IntDir)GeneratedSources\strings.cpp')" />
+
+    <ItemGroup>
+      <ClCompile Include="$(IntDir)GeneratedSources\strings.cpp">
+        <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      </ClCompile>
+      <ResourceCompile Include="$(IntDir)GeneratedSources\version.rc" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ClCompile>
+        <AdditionalIncludeDirectories>$(IntDir)GeneratedSources;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      </ClCompile>
+    </ItemGroup>
+  </Target>
+</Project>
