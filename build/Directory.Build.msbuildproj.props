@@ -1,0 +1,5 @@
+<Project>
+  <PropertyGroup>
+    <WixBuildTargetsDir>$(MSBuildThisFileDirectory)\wixproj\</WixBuildTargetsDir>
+  </PropertyGroup>
+</Project>

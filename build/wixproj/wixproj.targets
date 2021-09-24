@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <WixTasksPath>$(RepoRootPath)bin\Setup.WixBuildTasks\$(Platform)\$(Configuration)\netstandard2.0\Setup.WixBuildTasks.dll</WixTasksPath>
+    <DefineSolutionProperties>false</DefineSolutionProperties>
+    <RunWixToolsOutOfProc>true</RunWixToolsOutOfProc>
+  </PropertyGroup>
+
+  <ItemGroup Condition="!Exists($(WixTasksPath))">
+    <ProjectReference Include="$(RepoRootPath)src\Setup.WixBuildTasks\Setup.WixBuildTasks.csproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <DoNotHarvest>true</DoNotHarvest>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
