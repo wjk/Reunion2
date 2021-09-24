@@ -8,6 +8,7 @@
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <ImplicitUsings>disable</ImplicitUsings>
     <NoWarn>SA0001;$(NoWarn)</NoWarn>
 
     <Company>William Kent</Company>
