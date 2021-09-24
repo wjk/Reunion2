@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <AssemblyName>Sunburst.Reunion2.CppWinRT.BuildTasks</AssemblyName>
+    <RootNamespace>Sunburst.Reunion2.CppWinRT.BuildTasks</RootNamespace>
+    <PackageId>Sunburst.Reunion2.CppWinRT</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Framework" Version="16.11.0" />
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.11.0" />
+  </ItemGroup>
+
+</Project>
