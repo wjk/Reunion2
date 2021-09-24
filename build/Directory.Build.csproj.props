@@ -28,7 +28,7 @@
   <Sdk Name="DotNet.ReproducibleBuilds.Isolated" Version="0.1.64" />
 
   <ItemGroup Condition="'$(LangVersion)' == '10.0'">
-    <Compile Include="$(MSBuildThisFileDirectory)GlobalUsings.cs" Link="GlobalUsings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SharedGlobalUsings.cs" Link="SharedGlobalUsings.cs" />
   </ItemGroup>
 
   <!-- ============== Code Analysis ============== -->
