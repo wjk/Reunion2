@@ -7,12 +7,19 @@
 
     <AssemblyName>Sunburst.Reunion2.CppWinRT.BuildTasks</AssemblyName>
     <RootNamespace>Sunburst.Reunion2.CppWinRT.BuildTasks</RootNamespace>
+
     <PackageId>Sunburst.Reunion2.CppWinRT</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Build.Framework" Version="16.11.0" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="targets\CppWinRTRules.xml" Pack="true" PackagePath="build\%(FileName)%(Extension)" />
+    <Content Include="targets\Sunburst.Reunion2.CppWinRT.targets" Pack="true" PackagePath="build\%(FileName)%(Extension)" />
+    <Content Include="targets\Sunburst.Reunion2.CppWinRT.props" Pack="true" PackagePath="build\%(FileName)%(Extension)" />
   </ItemGroup>
 
 </Project>
