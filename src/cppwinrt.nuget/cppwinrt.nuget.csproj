@@ -21,6 +21,7 @@
     <Content Include="targets\CppWinRTRules.xml" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
     <Content Include="targets\Sunburst.Reunion2.CppWinRT.targets" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
     <Content Include="targets\Sunburst.Reunion2.CppWinRT.props" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
+    <Content Include="_._" Pack="true" PackagePath="lib\netstandard2.0\_._" Visible="false" />
   </ItemGroup>
 
 </Project>
