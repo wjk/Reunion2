@@ -9,6 +9,7 @@
     <RootNamespace>Sunburst.Reunion2.CppWinRT.BuildTasks</RootNamespace>
 
     <PackageId>Sunburst.Reunion2.CppWinRT</PackageId>
+    <BuildOutputTargetFolder>build\native</BuildOutputTargetFolder>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,9 +18,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="targets\CppWinRTRules.xml" Pack="true" PackagePath="build\%(FileName)%(Extension)" />
-    <Content Include="targets\Sunburst.Reunion2.CppWinRT.targets" Pack="true" PackagePath="build\%(FileName)%(Extension)" />
-    <Content Include="targets\Sunburst.Reunion2.CppWinRT.props" Pack="true" PackagePath="build\%(FileName)%(Extension)" />
+    <Content Include="targets\CppWinRTRules.xml" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
+    <Content Include="targets\Sunburst.Reunion2.CppWinRT.targets" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
+    <Content Include="targets\Sunburst.Reunion2.CppWinRT.props" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
   </ItemGroup>
 
 </Project>
