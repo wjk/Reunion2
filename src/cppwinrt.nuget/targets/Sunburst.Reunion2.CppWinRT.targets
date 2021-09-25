@@ -4,7 +4,7 @@
   <UsingTask TaskName="CreateXamlMetadataProviderCppFile" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
   <UsingTask TaskName="MDMerge" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
   <UsingTask TaskName="MDMerge" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
-  <UsingTask TaskName="CreateCppWinRTExternalProjections" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
+  <UsingTask TaskName="CppWinRT" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
 
   <PropertyGroup>
     <CppWinRTVerbosity Condition="'$(CppWinRTVerbosity)' == ''">normal</CppWinRTVerbosity>
@@ -591,9 +591,9 @@
           Inputs="$(MSBuildAllProjects);@(CppWinRTPlatformWinMDInputs);@(CustomAdditionalPlatformWinMDInputs)"
           Outputs="$(CppWinRTPlatformProjectionResponseFile)">
     <!-- This task does nothing if there are no input files, so no Condition is necessary. -->
-    <CreateCppWinRTExternalProjections ToolLocation="$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
-                                       InputFiles="@(CppPlatformWinRTPlatformWinMDInputs)" UseFastAbi="$(CppWinRTFastAbi)"
-                                       Verbose="$(CppWinRTCommandVerbosity)" />
+    <CppWinRT ToolLocation="$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
+              InputFiles="@(CppPlatformWinRTPlatformWinMDInputs)" UseFastAbi="$(CppWinRTFastAbi)"
+              Verbose="$(CppWinRTCommandVerbosity)" />
 
     <Touch Files="$(CppWinRTPlatformProjectionResponseFile)" AlwaysCreate="true" />
   </Target>
