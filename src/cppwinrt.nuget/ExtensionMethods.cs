@@ -15,9 +15,6 @@ internal static class ExtensionMethods
     /// <param name="builder">
     /// The <see cref="CommandLineBuilder"/> to modify.
     /// </param>
-    /// <param name="switch">
-    /// Whether or not the switch should be appended.
-    /// </param>
     /// <param name="flag">
     /// The switch to append to the command line.
     /// </param>
