@@ -22,7 +22,7 @@
     <CppWinRTWriteOnlyWhenDifferent Condition="'$(CppWinRTWriteOnlyWhenDifferent)' != 'true'">false</CppWinRTWriteOnlyWhenDifferent>
     <CppWinRTHasHashTask Condition="('$(CppWinRTHasHashTask)' == '') And (('$(MSBuildToolsVersion)' == 'Current'))">true</CppWinRTHasHashTask>
     <CppWinRTHasHashTask Condition="'$(CppWinRTHasHashTask)' != 'true'">false</CppWinRTHasHashTask>
-    <CppWinRTPath Condition="'$(CppWinRTPath)'==''">$(MSBuildThisFileDirectory)..\tools\cppwinrt.exe</CppWinRTPath>
+    <CppWinRTPath Condition="'$(CppWinRTPath)'==''">$(MSBuildThisFileDirectory)..\..\tools\cppwinrt.exe</CppWinRTPath>
     <!-- By default enable C++/WinRT to include target platform winmds if we didn't overide sdk references and the C++ Project system isn't already adding them -->
     <!-- _PrepareForReferenceResolution adds the references if TargetPlatformIdentifier is UAP -->
     <CppWinRTImplicitlyExpandTargetPlatform Condition="'$(CppWinRTImplicitlyExpandTargetPlatform)' == '' and '$(CppWinRTOverrideSDKReferences)' != 'true' and '$(TargetPlatformIdentifier)' != 'UAP'">true</CppWinRTImplicitlyExpandTargetPlatform>
