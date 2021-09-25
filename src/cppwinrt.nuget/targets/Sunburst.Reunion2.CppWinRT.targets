@@ -598,7 +598,7 @@
                                        InputFiles="@(CppPlatformWinRTPlatformWinMDInputs)" UseFastAbi="$(CppWinRTFastAbi)"
                                        Verbose="$(CppWinRTCommandVerbosity)" />
 
-    <Touch Files="$(CppWinRTPlatformProjectionResponseFile)" />
+    <Touch Files="$(CppWinRTPlatformProjectionResponseFile)" AlwaysCreate="true" />
   </Target>
 
   <!--
@@ -640,9 +640,6 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_CppWinRTCleanMakeReferenceProjectionOutputs">
-    <Delete Files="$(CppWinRTReferenceProjectionResponseFile)" />
-  </Target>
 
   <!--Build reference projection from WinMD project references and dynamic library project references-->
   <!-- Note that Condition is evaluated before DependsOnTargets are run -->
@@ -651,9 +648,6 @@
           DependsOnTargets="CppWinRTResolveReferences;_CppWinRTMakeReferenceProjectionDependencyCache;$(CppWinRTMakeReferenceProjectionDependsOn)"
           Inputs="$(MSBuildAllProjects);@(CppWinRTDirectWinMDReferences);@(CppWinRTDynamicProjectWinMDReferences);@(CppWinRTPlatformWinMDReferences);@(CustomAdditionalReferenceWinMDInputs)"
           Outputs="$(CppWinRTReferenceProjectionResponseFile)">
-    <PropertyGroup>
-      <CppWinRTCommand>$(CppWinRTPath)cppwinrt %40"$(CppWinRTReferenceProjectionResponseFile)"</CppWinRTCommand>
-    </PropertyGroup>
     <ItemGroup>
       <_CppwinrtRefInputs Remove="@(_CppwinrtRefInputs)"/>
       <_CppwinrtRefInputs Include="@(CppWinRTDirectWinMDReferences)"/>
@@ -661,24 +655,13 @@
       <_CppwinrtRefRefs Remove="@(_CppwinrtRefRefs)"/>
       <_CppwinrtRefRefs Include="@(CppWinRTPlatformWinMDReferences)"/>
     </ItemGroup>
-    <PropertyGroup>
-      <_CppwinrtParameters>$(CppWinRTCommandVerbosity) $(CppWinRTParameters)</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) @(_CppwinrtRefInputs->'-in &quot;%(WinMDPath)&quot;', '&#x0d;&#x0a;')</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) @(_CppwinrtRefRefs->'-ref &quot;%(WinMDPath)&quot;', '&#x0d;&#x0a;')</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) -out &quot;$(GeneratedFilesDir).&quot;</_CppwinrtParameters>
-    </PropertyGroup>
 
-    <!-- Always write the cppwinrt_ref.rsp file when the target runs, because the file is used as the output of this target. -->
-    <WriteLinesToFile
-        File="$(CppWinRTReferenceProjectionResponseFile)" Lines="$(_CppwinrtParameters)"
-        Overwrite="true" />
+    <!-- This task does nothing if there are no input files, so no Condition is necessary. -->
+    <CreateCppWinRTExternalProjections ToolLocation="$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
+                                       InputFiles="%(_CppwinrtRefInputs.WinMDPath)" ReferencePaths="%(_CppwinrtRefRefs.WinMDPath)"
+                                       UseFastAbi="$(CppWinRTFastAbi)" Verbose="$(CppWinRTCommandVerbosity)" />
 
-    <Message Text="$(CppWinRTCommand)" Importance="$(CppWinRTVerbosity)" Condition="'@(_CppwinrtRefInputs)' != ''" />
-    <Exec Command="$(CppWinRTCommand)" Condition="'@(_CppwinrtRefInputs)' != ''" />
-
-    <!-- Clean the output file if the target failed to indicate it needs to be rebuild -->
-    <OnError ExecuteTargets="_CppWinRTCleanMakeReferenceProjectionOutputs" />
-
+    <Touch Files="$(CppWinRTReferenceProjectionResponseFile)" AlwaysCreate="true" />
   </Target>
 
   <!--
