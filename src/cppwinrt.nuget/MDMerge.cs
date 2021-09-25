@@ -35,9 +35,7 @@ public sealed class MDMerge : ToolTask
 
         foreach (var dir in MetadataDirectories)
         {
-            string fullPath = dir.GetMetadata("FullPath");
-            if (fullPath.EndsWith("\\")) fullPath = fullPath.Substring(0, fullPath.Length - 1);
-
+            string fullPath = dir.GetMetadata("FullPath").TrimEnd('\\');
             builder.AppendSwitchIfNotNull("-metadata_dir ", fullPath);
         }
 
