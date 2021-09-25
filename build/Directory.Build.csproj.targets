@@ -3,8 +3,20 @@
     <AvailableItemName Include="Manifest" />
   </ItemGroup>
 
+  <Target Name="FixupCppProperties" BeforeTargets="BeforeBuild">
+    <ItemGroup>
+      <ProjectReference Update="@(ProjectReference)" Condition="'%(Extension)' == '.vcxproj'">
+        <SetConfiguration Condition="'%(ProjectReference.SetConfiguration)' == ''">Configuration=$(Configuration)</SetConfiguration>
+        <SetPlatform Condition="'%(ProjectReference.SetPlatform)' == ''">Platform=$(CppPlatform)</SetPlatform>
+      </ProjectReference>
+    </ItemGroup>
+  </Target>
+
   <Target Name="GetNativeReferencesFromVcxproj" AfterTargets="ResolveProjectReferences">
-    <MSBuild Projects="@(_MSBuildProjectReferenceExistent)" Targets="BuiltProjectOutputGroup;BuiltProjectOutputGroupDependencies" Condition="'%(Extension)' == '.vcxproj'">
+    <MSBuild Projects="@(_MSBuildProjectReferenceExistent)"
+             Properties="Configuration=$(Configuration);Platform=$(CppPlatform)"
+             Targets="BuiltProjectOutputGroup;BuiltProjectOutputGroupDependencies"
+             Condition="'%(Extension)' == '.vcxproj'">
       <Output TaskParameter="TargetOutputs" ItemName="ContentFromVcxproj" />
     </MSBuild>
 

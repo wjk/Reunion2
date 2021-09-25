@@ -32,6 +32,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)SharedGlobalUsings.cs" Link="SharedGlobalUsings.cs" />
   </ItemGroup>
 
+  <!-- ============== C++ support ============== -->
+  <PropertyGroup>
+    <CppPlatform Condition="'$(Platform)' == '' or  '$(Platform)' == 'Any CPU'">x64</CppPlatform>
+    <CppPlatform Condition="'$(Platform)' == 'x64'">x64</CppPlatform>
+    <CppPlatform Condition="'$(Platform)' == 'x86'">Win32</CppPlatform>
+  </PropertyGroup>
+
   <!-- ============== Code Analysis ============== -->
 
   <PropertyGroup Condition="'$(EnableNETAnalyzers)' == 'true'">
