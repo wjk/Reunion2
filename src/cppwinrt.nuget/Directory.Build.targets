@@ -15,6 +15,40 @@
     </PropertyGroup>
   </Target>
 
+  <ItemGroup>
+    <ProjectReference Include="..\cppwinrt.fast_forwarder\cppwinrt.fast_forwarder.x64.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <SetPlatform>Platform=x64</SetPlatform>
+    </ProjectReference>
+    <ProjectReference Include="..\cppwinrt.fast_forwarder\cppwinrt.fast_forwarder.Win32.vcxproj">
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <SetPlatform>Platform=Win32</SetPlatform>
+    </ProjectReference>
+  </ItemGroup>
+
+  <Target Name="_PackFastFwdLibraries" AfterTargets="GetNativeReferencesFromVcxproj">
+    <ItemGroup>
+      <Content Include="$(RepoRootPath)bin\cppwinrt.fast_forwarder.Win32\Win32\$(Configuration)\cppwinrt_fast_forwarder.Win32.lib">
+        <Pack>true</Pack>
+        <PackagePath>lib\native</PackagePath>
+      </Content>
+      <Content Include="$(RepoRootPath)bin\cppwinrt.fast_forwarder.x64\x64\$(Configuration)\cppwinrt_fast_forwarder.x64.lib">
+        <Pack>true</Pack>
+        <PackagePath>lib\native</PackagePath>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_FwdLibrary Include="@(Content)" Condition="'%(Extension)' == '.lib'" />
+      <Content Remove="@(_FwdLibrary)" />
+
+      <Content Include="@(_FwdLibrary)">
+        <Pack>true</Pack>
+        <PackagePath>lib\native</PackagePath>
+      </Content>
+    </ItemGroup>
+  </Target>
+
   <Import Project="..\Directory.Build.targets" />
 
 </Project>
