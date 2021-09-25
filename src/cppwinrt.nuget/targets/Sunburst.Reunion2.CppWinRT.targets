@@ -787,7 +787,7 @@
     </Midl>
     <Link>
       <AdditionalDependencies Condition="'$(CppWinRTLibs)' != 'false'">%(AdditionalDependencies);WindowsApp.lib</AdditionalDependencies>
-      <AdditionalDependencies Condition="'$(CppWinRTFastAbi)'=='true'">%(AdditionalDependencies);$(CppWinRTPackageDir)build\native\lib\$(Platform)\cppwinrt_fast_forwarder.lib</AdditionalDependencies>
+      <AdditionalDependencies Condition="'$(CppWinRTFastAbi)'=='true'">%(AdditionalDependencies);$(MSBuildThisFileDirectory)..\..\lib\native\cppwinrt_fast_forwarder.$(Platform).lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
 
