@@ -8,7 +8,8 @@
 
   <PropertyGroup>
     <CppWinRTVerbosity Condition="'$(CppWinRTVerbosity)' == ''">normal</CppWinRTVerbosity>
-    <CppWinRTCommandVerbosity Condition="'$(CppWinRTVerbosity)' == 'high'">-verbose</CppWinRTCommandVerbosity>
+    <CppWinRTCommandVerbosity Condition="'$(CppWinRTVerbosity)' == 'high'">true</CppWinRTCommandVerbosity>
+    <CppWinRTCommandVerbosity Condition="'$(CppWinRTVerbosity)' != 'high'">false</CppWinRTCommandVerbosity>
     <CppWinRTProjectWinMD>$(OutDir)$(RootNamespace).winmd</CppWinRTProjectWinMD>
     <CppWinRTMergedDir>$(IntDir)Merged\</CppWinRTMergedDir>
     <CppWinRTUnmergedDir>$(IntDir)Unmerged\</CppWinRTUnmergedDir>
@@ -717,15 +718,12 @@
     </PropertyGroup>
     <Error Condition="('$(CppWinRTOverrideSDKReferences)' != 'true') and ('$(TargetPlatformVersion)' &lt; '10.0.17709.0') and ('$(_PCH)' != 'pch.h')"
         Text="Please retarget to 10.0.17709.0 or later, or rename your PCH to 'pch.h'."/>
+
     <PropertyGroup Condition="('$(CppWinRTOverrideSDKReferences)' == 'true') or ('$(TargetPlatformVersion)' &gt; '10.0.17708.0')">
       <CppWinRTUsePrefixes Condition="'$(CppWinRTUsePrefixes)' == ''">true</CppWinRTUsePrefixes>
       <CppWinRTPrecompiledHeader Condition="'$(CppWinRTPrecompiledHeader)' == ''">$(_PCH)</CppWinRTPrecompiledHeader>
     </PropertyGroup>
-    <PropertyGroup>
-      <CppWinRTCommandUsePrefixes Condition="'$(CppWinRTUsePrefixes)' == 'true'">-prefix</CppWinRTCommandUsePrefixes>
-      <CppWinRTCommandPrecompiledHeader Condition="'$(CppWinRTPrecompiledHeader)' != ''">-pch $(CppWinRTPrecompiledHeader)</CppWinRTCommandPrecompiledHeader>
-      <CppWinRTCommand>$(CppWinRTPath)cppwinrt %40"$(CppWinRTComponentProjectionResponseFile)"</CppWinRTCommand>
-    </PropertyGroup>
+
     <ItemGroup>
       <!-- use the output from MdMerge directly to generate the component projection. -->
       <_MdMergedOutput Remove="@(_MdMergedOutput)"/>
@@ -745,24 +743,13 @@
       <_CppwinrtCompRefs Include="@(CppWinRTDynamicProjectWinMDReferences)"/>
       <_CppwinrtCompRefs Include="@(CppWinRTPlatformWinMDReferences)"/>
     </ItemGroup>
-    <PropertyGroup>
-      <_CppwinrtParameters>$(CppWinRTCommandVerbosity) $(CppWinRTParameters) -overwrite -name $(RootNamespace) $(CppWinRTCommandPrecompiledHeader) $(CppWinRTCommandUsePrefixes) -comp &quot;$(GeneratedFilesDir)sources&quot;</_CppwinrtParameters>
-      <_CppwinrtParameters Condition="'$(CppWinRTOptimized)'=='true'">$(_CppwinrtParameters) -opt</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) @(_CppwinrtCompInputs->'-in &quot;%(WinMDPath)&quot;', '&#x0d;&#x0a;')</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) @(_CppwinrtCompRefs->'-ref &quot;%(WinMDPath)&quot;', '&#x0d;&#x0a;')</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) -out &quot;$(GeneratedFilesDir).&quot;</_CppwinrtParameters>
-    </PropertyGroup>
 
-    <!-- Always write the cppwinrt_comp.rsp file when the target runs, because the file is used as the output of this target. -->
-    <WriteLinesToFile
-        File="$(CppWinRTComponentProjectionResponseFile)" Lines="$(_CppwinrtParameters)"
-        Overwrite="true" />
-
-    <Message Text="$(CppWinRTCommand)" Importance="$(CppWinRTVerbosity)" Condition="'@(_CppwinrtCompInputs)' != ''"/>
-    <Exec Command="$(CppWinRTCommand)" Condition="'@(_CppwinrtCompInputs)' != ''"/>
-
-    <!-- Clean the output file if the target failed to indicate it needs to be rebuild -->
-    <OnError ExecuteTargets="_CppWinRTCleanMakeComponentProjectionOutputs" />
+    <CppWinRT ToolLocation="'$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
+              ComponentOutputDirectory="$(GeneratedFilesDir)Sources" PrecompiledHeaderPath="$(CppWinRTPrecompiledHeader)"
+              InputFiles="@(_CppwinrtCompInputs)" ReferenceFiles="@(_CppWinrtCompRefs)"
+              RootNamespace="$(RootNamespace)" UsePrefixes="$(CppWinRTUsePrefixes)" Optimize="$(CppWinRTOptimized)"
+              UseFastAbi="$(CppWinRTFastAbi)" Verbose="$(CppWinRTCommandVerbosity)" />
+    <Touch Files="$(CppWinRTComponentProjectionResponseFile)" AlwaysCreate="true" />
   </Target>
 
   <Target Name="CppWinRTMakeProjections" DependsOnTargets="CppWinRTResolveReferences;CppWinRTMakePlatformProjection;CppWinRTMakeReferenceProjection;CppWinRTMakeComponentProjection;$(CppWinRTMakeProjectionsDependsOn)" />
