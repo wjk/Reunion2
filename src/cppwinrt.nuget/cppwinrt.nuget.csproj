@@ -10,11 +10,14 @@
 
     <PackageId>Sunburst.Reunion2.CppWinRT</PackageId>
     <BuildOutputTargetFolder>build\native</BuildOutputTargetFolder>
+    <AssetTargetFallback>native</AssetTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Build.Framework" Version="16.11.0" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.11.0" />
+
+    <ProjectReference Include="..\cppwinrt\cppwinrt.vcxproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,5 +26,20 @@
     <Content Include="targets\Sunburst.Reunion2.CppWinRT.props" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
     <Content Include="_._" Pack="true" PackagePath="lib\netstandard2.0\_._" Visible="false" />
   </ItemGroup>
+
+  <Target Name="_CleanupExeFiles" AfterTargets="GetNativeReferencesFromVcxproj">
+    <ItemGroup>
+      <Content Remove="@(Content)" Condition="'%(Extension)' == '.exe' and '%(FileName)%(Extension)' != 'cppwinrt.exe'" />
+
+      <Content Update="@(Content)" Condition="'%(FileName)%(Extension)' == 'cppwinrt.exe'">
+        <Pack>true</Pack>
+        <PackagePath>tools</PackagePath>
+      </Content>
+    </ItemGroup>
+
+    <PropertyGroup>
+      <IsPackable>true</IsPackable>
+    </PropertyGroup>
+  </Target>
 
 </Project>
