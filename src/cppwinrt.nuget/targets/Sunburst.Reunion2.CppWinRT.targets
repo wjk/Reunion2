@@ -1,10 +1,13 @@
 ﻿<Project>
 
-  <UsingTask TaskName="CreateXamlMetadataProviderIdlFile" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
-  <UsingTask TaskName="CreateXamlMetadataProviderCppFile" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
-  <UsingTask TaskName="MDMerge" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
-  <UsingTask TaskName="MDMerge" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
-  <UsingTask TaskName="CppWinRT" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
+  <PropertyGroup>
+    <CppWinRTTaskAssembly Condition="'$(CppWinRTTaskAssembly)' == ''">$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll</CppWinRTTaskAssembly>
+  </PropertyGroup>
+
+  <UsingTask TaskName="CreateXamlMetadataProviderIdlFile" AssemblyFile="$(CppWinRTTaskAssembly)" />
+  <UsingTask TaskName="CreateXamlMetadataProviderCppFile" AssemblyFile="$(CppWinRTTaskAssembly)" />
+  <UsingTask TaskName="MDMerge" AssemblyFile="$(CppWinRTTaskAssembly)" />
+  <UsingTask TaskName="CppWinRT" AssemblyFile="$(CppWinRTTaskAssembly)" />
 
   <PropertyGroup>
     <CppWinRTVerbosity Condition="'$(CppWinRTVerbosity)' == ''">normal</CppWinRTVerbosity>
