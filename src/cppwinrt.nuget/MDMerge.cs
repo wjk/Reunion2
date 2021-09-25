@@ -30,8 +30,7 @@ public sealed class MDMerge : ToolTask
     protected override string GenerateResponseFileCommands()
     {
         CommandLineBuilder builder = new();
-
-        if (ValidateOutput) builder.AppendSwitch("-v");
+        builder.AppendSwitchIfTrue("-v", ValidateOutput);
 
         foreach (var dir in MetadataDirectories)
         {
@@ -49,8 +48,7 @@ public sealed class MDMerge : ToolTask
             builder.AppendSwitchIfNotNull("-n:", NamespaceMergeDepth.ToString());
         }
 
-        string outputPath = MergedDirectory!.GetMetadata("FullPath");
-        if (outputPath.EndsWith("\\")) outputPath = outputPath.Substring(0, outputPath.Length - 1);
+        string outputPath = MergedDirectory!.GetMetadata("FullPath").TrimEnd('\\');
         builder.AppendSwitchIfNotNull("-o ", outputPath);
         builder.AppendSwitchIfNotNull("-partial ", NamespaceMergeDepth.ToString());
 
