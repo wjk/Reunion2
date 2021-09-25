@@ -22,11 +22,7 @@
     <CppWinRTWriteOnlyWhenDifferent Condition="'$(CppWinRTWriteOnlyWhenDifferent)' != 'true'">false</CppWinRTWriteOnlyWhenDifferent>
     <CppWinRTHasHashTask Condition="('$(CppWinRTHasHashTask)' == '') And (('$(MSBuildToolsVersion)' == 'Current'))">true</CppWinRTHasHashTask>
     <CppWinRTHasHashTask Condition="'$(CppWinRTHasHashTask)' != 'true'">false</CppWinRTHasHashTask>
-    <CppWinRTPackageDir Condition="'$(CppWinRTPackage)' == 'true' and '$(CppWinRTPackageDir)'==''">$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)))..\..\</CppWinRTPackageDir>
-    <CppWinRTPackageDir Condition="'$(CppWinRTPackage)' != 'true' and '$(CppWinRTPackageDir)'==''">$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)))</CppWinRTPackageDir>
-    <CppWinRTParameters Condition="'$(CppWinRTFastAbi)'=='true'">$(CppWinRTParameters) -fastabi</CppWinRTParameters>
-    <CppWinRTPath Condition="'$(CppWinRTPackage)' == 'true' and '$(CppWinRTPath)'==''">"$(CppWinRTPackageDir)bin\"</CppWinRTPath>
-    <CppWinRTPath Condition="'$(CppWinRTPackage)' != 'true' and '$(CppWinRTPath)'==''">"$(CppWinRTPackageDir)"</CppWinRTPath>
+    <CppWinRTPath Condition="'$(CppWinRTPath)'==''">$(MSBuildThisFileDirectory)..\tools\cppwinrt.exe</CppWinRTPath>
     <!-- By default enable C++/WinRT to include target platform winmds if we didn't overide sdk references and the C++ Project system isn't already adding them -->
     <!-- _PrepareForReferenceResolution adds the references if TargetPlatformIdentifier is UAP -->
     <CppWinRTImplicitlyExpandTargetPlatform Condition="'$(CppWinRTImplicitlyExpandTargetPlatform)' == '' and '$(CppWinRTOverrideSDKReferences)' != 'true' and '$(TargetPlatformIdentifier)' != 'UAP'">true</CppWinRTImplicitlyExpandTargetPlatform>
@@ -594,7 +590,7 @@
           Inputs="$(MSBuildAllProjects);@(CppWinRTPlatformWinMDInputs);@(CustomAdditionalPlatformWinMDInputs)"
           Outputs="$(CppWinRTPlatformProjectionResponseFile)">
     <!-- This task does nothing if there are no input files, so no Condition is necessary. -->
-    <CppWinRT ToolLocation="$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
+    <CppWinRT ToolLocation="$(CppWinRTPath)" OutputDirectory="$(GeneratedFilesDir)"
               InputFiles="@(CppPlatformWinRTPlatformWinMDInputs)" UseFastAbi="$(CppWinRTFastAbi)"
               Verbose="$(CppWinRTCommandVerbosity)" />
 
@@ -657,7 +653,7 @@
     </ItemGroup>
 
     <!-- This task does nothing if there are no input files, so no Condition is necessary. -->
-    <CreateCppWinRTExternalProjections ToolLocation="$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
+    <CreateCppWinRTExternalProjections ToolLocation="$(CppWinRTPath)" OutputDirectory="$(GeneratedFilesDir)"
                                        InputFiles="%(_CppwinrtRefInputs.WinMDPath)" ReferencePaths="%(_CppwinrtRefRefs.WinMDPath)"
                                        UseFastAbi="$(CppWinRTFastAbi)" Verbose="$(CppWinRTCommandVerbosity)" />
 
@@ -747,7 +743,7 @@
       <_CppwinrtCompRefs Include="@(CppWinRTPlatformWinMDReferences)"/>
     </ItemGroup>
 
-    <CppWinRT ToolLocation="'$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
+    <CppWinRT ToolLocation="'$(CppWinRTPath)" OutputDirectory="$(GeneratedFilesDir)"
               ComponentOutputDirectory="$(GeneratedFilesDir)Sources" PrecompiledHeaderPath="$(CppWinRTPrecompiledHeader)"
               InputFiles="@(_CppwinrtCompInputs)" ReferenceFiles="@(_CppWinrtCompRefs)"
               RootNamespace="$(RootNamespace)" UsePrefixes="$(CppWinRTUsePrefixes)" Optimize="$(CppWinRTOptimized)"
