@@ -2,6 +2,7 @@
 
   <UsingTask TaskName="CreateXamlMetadataProviderIdlFile" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
   <UsingTask TaskName="CreateXamlMetadataProviderCppFile" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
+  <UsingTask TaskName="MDMerge" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
 
   <PropertyGroup>
     <CppWinRTVerbosity Condition="'$(CppWinRTVerbosity)' == ''">normal</CppWinRTVerbosity>
@@ -497,49 +498,32 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_CppWinRTCleanMdMergeOutputs">
-    <Delete Files="$(CppWinRTMdMergeResponseFile)" />
-  </Target>
-
   <!--Merge project-generated WinMDs and project-referenced static library WinMDs into project WinMD-->
   <Target Name="CppWinRTMergeProjectWinMDInputs"
           DependsOnTargets="Midl;GetCppWinRTMdMergeInputs;_CppWinRTGenerateMergeProjectWinMDDependencyCache;$(CppWinRTMergeProjectWinMDInputsDependsOn)"
           Inputs="$(MSBuildAllProjects);@(CppWinRTMdMergeInputs);@(CustomAdditionalMdMergeInputs)"
           Outputs="@(_MdMergedOutput);$(CppWinRTMdMergeResponseFile)">
     <PropertyGroup>
-      <!--Note: CppWinRTNamespaceMergeDepth supersedes CppWinRTMergeDepth-->
-      <_MdMergeDepth Condition="'$(CppWinRTNamespaceMergeDepth)' != ''">-n:$(CppWinRTNamespaceMergeDepth)</_MdMergeDepth>
-      <_MdMergeDepth Condition="'$(_MdMergeDepth)' == ''">$(CppWinRTMergeDepth)</_MdMergeDepth>
-      <_MdMergeDepth Condition="'$(_MdMergeDepth)' == '' And '$(CppWinRTRootNamespaceAutoMerge)' == 'true'">-n:$(RootNamespace.Split('.').length)</_MdMergeDepth>
-      <_MdMergeDepth Condition="'$(_MdMergeDepth)' == '' And ('@(Page)' != '' Or '@(ApplicationDefinition)' != '')">-n:1</_MdMergeDepth>
-      <_MdMergeCommand>$(MdMergePath)mdmerge %40"$(CppWinRTMdMergeResponseFile)"</_MdMergeCommand>
-    </PropertyGroup>
-    <PropertyGroup>
+      <_MdMergeDepth Condition="'$(CppWinRTNamespaceMergeDepth)' != ''">$(CppWinRTNamespaceMergeDepth)</_MdMergeDepth>
+      <_MdMergeDepth Condition="'$(_MdMergeDepth)' == '' And '$(CppWinRTRootNamespaceAutoMerge)' == 'true'">$(RootNamespace.Split('.').Length)</_MdMergeDepth>
+      <_MdMergeDepth Condition="'$(_MdMergeDepth)' == '' And ('@(Page)' != '' Or '@(ApplicationDefinition)' != '')">1</_MdMergeDepth>
+
       <!-- mdmerge.exe wants the folders to not have a trailing \ -->
-      <_MdMergeParameters Condition="'$(CppWinRTMergeNoValidate)'!='true'">-v</_MdMergeParameters>
-      <_MdMergeParameters>$(_MdMergeParameters) @(CppWinRTMdMergeMetadataDirectories->'-metadata_dir &quot;%(RelativeDir).&quot;', '&#x0d;&#x0a;')</_MdMergeParameters>
-      <_MdMergeParameters>$(_MdMergeParameters) @(CppWinRTMdMergeInputs->'-i &quot;%(Identity)&quot;', '&#x0d;&#x0a;')</_MdMergeParameters>
-      <_MdMergeParameters>$(_MdMergeParameters) -o &quot;$(CppWinRTMergedDir.TrimEnd('\'))&quot; -partial $(_MdMergeDepth)</_MdMergeParameters>
+      <_MdMergeValidate Condition="'$(CppWinRTMergeNoValidate)' == 'true'">true</_MdMergeValidate>
+      <_MdMergeValidate Condition="'$(CppWinRTMergeNoValidate)' == ''">false</_MdMergeValidate>
     </PropertyGroup>
 
-    <!-- Always write the mdmerge.rsp file when the target runs, because the file is used as the output of this target. -->
-    <WriteLinesToFile
-        File="$(CppWinRTMdMergeResponseFile)" Lines="$(_MdMergeParameters)"
-        Overwrite="true" />
+    <MDMerge MdMergePath="$(MdMergePath)mdmerge.exe" MergedDirectory="$(CppWinRTMergedDir)"
+             MetadataDirectories="@(CppWinRTMdMergeMetadataDirectories)" InputFiles="@(CppWinRTMdMergeInputs)"
+             NamespaceMergeDepth="$(_MdMergeDepth)" ValidateOutput="$(_MdMergeValidate)"
+             Condition="'@(_CppWinRTMdMergeInputs)' != ''" />
 
-    <MakeDir Directories="$(CppWinRTUnmergedDir);$(CppWinRTMergedDir)" />
-    <Message Text="$(_MdMergeCommand)" Importance="$(CppWinRTVerbosity)" Condition="'@(CppWinRTMdMergeInputs)' != ''" />
-    <!-- Only run mdmerge.exe when we actually have inputs -->
     <Exec Command="$(_MdMergeCommand)" Condition="'@(CppWinRTMdMergeInputs)' != ''" />
     <ItemGroup>
       <_MdMergedOutput Remove="@(_MdMergedOutput)"/>
       <_MdMergedOutput Include="$(CppWinRTMergedDir)*.winmd"/>
     </ItemGroup>
     <Message Text="CppWinRTMdMerge output: @(MdMergeOutput)" Importance="$(CppWinRTVerbosity)"/>
-
-    <!-- Clean the output file if the target failed to indicate it needs to be rebuild -->
-    <OnError ExecuteTargets="_CppWinRTCleanMdMergeOutputs" />
-
   </Target>
 
   <!-- Only copy winmd to output folder if CppWinRTGenerateWindowsMetadata is true -->
