@@ -582,10 +582,6 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_CppWinRTCleanMakePlatformProjectionOutputs">
-    <Delete Files="$(CppWinRTPlatformProjectionResponseFile)" />
-  </Target>
-
   <!-- Build the platform projection from the winmds that ship with the platform in the Windows SDK -->
   <!-- Note that Condition is evaluated before DependsOnTargets are run -->
   <Target Name="CppWinRTMakePlatformProjection"
