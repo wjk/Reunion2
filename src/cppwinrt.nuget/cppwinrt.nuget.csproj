@@ -25,21 +25,7 @@
     <Content Include="targets\Sunburst.Reunion2.CppWinRT.targets" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
     <Content Include="targets\Sunburst.Reunion2.CppWinRT.props" Pack="true" PackagePath="build\native\%(FileName)%(Extension)" />
     <Content Include="_._" Pack="true" PackagePath="lib\netstandard2.0\_._" Visible="false" />
+    <None Include="Directory.Build.targets" />
   </ItemGroup>
-
-  <Target Name="_CleanupExeFiles" AfterTargets="GetNativeReferencesFromVcxproj">
-    <ItemGroup>
-      <Content Remove="@(Content)" Condition="'%(Extension)' == '.exe' and '%(FileName)%(Extension)' != 'cppwinrt.exe'" />
-
-      <Content Update="@(Content)" Condition="'%(FileName)%(Extension)' == 'cppwinrt.exe'">
-        <Pack>true</Pack>
-        <PackagePath>tools</PackagePath>
-      </Content>
-    </ItemGroup>
-
-    <PropertyGroup>
-      <IsPackable>true</IsPackable>
-    </PropertyGroup>
-  </Target>
 
 </Project>

@@ -1,0 +1,20 @@
+<Project>
+
+  <Target Name="_CleanupExeFiles" AfterTargets="GetNativeReferencesFromVcxproj">
+    <ItemGroup>
+      <Content Remove="@(Content)" Condition="'%(Extension)' == '.exe' and '%(FileName)%(Extension)' != 'cppwinrt.exe'" />
+
+      <Content Update="@(Content)" Condition="'%(FileName)%(Extension)' == 'cppwinrt.exe'">
+        <Pack>true</Pack>
+        <PackagePath>tools</PackagePath>
+      </Content>
+    </ItemGroup>
+
+    <PropertyGroup>
+      <IsPackable>true</IsPackable>
+    </PropertyGroup>
+  </Target>
+
+  <Import Project="..\Directory.Build.targets" />
+
+</Project>
