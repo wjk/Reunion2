@@ -3,6 +3,8 @@
   <UsingTask TaskName="CreateXamlMetadataProviderIdlFile" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
   <UsingTask TaskName="CreateXamlMetadataProviderCppFile" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
   <UsingTask TaskName="MDMerge" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
+  <UsingTask TaskName="MDMerge" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
+  <UsingTask TaskName="CreateCppWinRTExternalProjections" AssemblyFile="$(MSBuildThisFileDirectory)\netstandard2.0\Sunburst.Reunion2.CppWinRT.BuildTasks.dll" />
 
   <PropertyGroup>
     <CppWinRTVerbosity Condition="'$(CppWinRTVerbosity)' == ''">normal</CppWinRTVerbosity>
@@ -591,30 +593,12 @@
           DependsOnTargets="CppWinRTResolveReferences;GetCppWinRTPlatformWinMDInputs;_CppWinRTMakePlatformProjectionDependencyCache;$(CppWinRTMakePlatformProjectionDependsOn)"
           Inputs="$(MSBuildAllProjects);@(CppWinRTPlatformWinMDInputs);@(CustomAdditionalPlatformWinMDInputs)"
           Outputs="$(CppWinRTPlatformProjectionResponseFile)">
-    <PropertyGroup>
-      <CppWinRTCommand>$(CppWinRTPath)cppwinrt %40"$(CppWinRTPlatformProjectionResponseFile)"</CppWinRTCommand>
-    </PropertyGroup>
-    <ItemGroup>
-      <_CppwinrtInputs Remove="@(_CppwinrtInputs)"/>
-      <_CppwinrtInputs Include="@(CppWinRTPlatformWinMDInputs)"/>
-    </ItemGroup>
-    <PropertyGroup>
-      <_CppwinrtParameters>$(CppWinRTCommandVerbosity) $(CppWinRTParameters)</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) @(_CppwinrtInputs->'-in &quot;%(WinMDPath)&quot;', '&#x0d;&#x0a;')</_CppwinrtParameters>
-      <_CppwinrtParameters>$(_CppwinrtParameters) -out &quot;$(GeneratedFilesDir).&quot;</_CppwinrtParameters>
-    </PropertyGroup>
+    <!-- This task does nothing if there are no input files, so no Condition is necessary. -->
+    <CreateCppWinRTExternalProjections ToolLocation="$(CppWinRTPath)cppwinrt" OutputDirectory="$(GeneratedFilesDir)"
+                                       InputFiles="@(CppPlatformWinRTPlatformWinMDInputs)" UseFastAbi="$(CppWinRTFastAbi)"
+                                       Verbose="$(CppWinRTCommandVerbosity)" />
 
-    <!-- Always write the cppwinrt_plat.rsp file when the target runs, because the file is used as the output of this target. -->
-    <WriteLinesToFile
-        File="$(CppWinRTPlatformProjectionResponseFile)" Lines="$(_CppwinrtParameters)"
-        Overwrite="true" />
-
-    <Message Text="$(CppWinRTCommand)" Importance="$(CppWinRTVerbosity)" Condition="'@(_CppwinrtInputs)' != ''" />
-    <Exec Command="$(CppWinRTCommand)" Condition="'@(_CppwinrtInputs)' != ''" />
-
-    <!-- Clean the output file if the target failed to indicate it needs to be rebuild -->
-    <OnError ExecuteTargets="_CppWinRTCleanMakePlatformProjectionOutputs" />
-
+    <Touch Files="$(CppWinRTPlatformProjectionResponseFile)" />
   </Target>
 
   <!--
