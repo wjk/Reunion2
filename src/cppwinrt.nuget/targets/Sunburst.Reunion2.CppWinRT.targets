@@ -695,10 +695,6 @@
     </ItemGroup>
   </Target>
 
-  <Target Name="_CppWinRTCleanMakeComponentProjectionOutputs">
-    <Delete Files="$(CppWinRTComponentProjectionResponseFile)" />
-  </Target>
-
   <!--Build component projection from project WinMD file and static library project references-->
   <!-- Note that Condition is evaluated before DependsOnTargets are run -->
   <Target Name="CppWinRTMakeComponentProjection"
