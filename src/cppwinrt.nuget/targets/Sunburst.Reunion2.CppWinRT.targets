@@ -410,14 +410,9 @@
   <!--If building any Xaml content, write XamlMetaDataProvider idl file -->
   <Target Name="CppWinRTAddXamlMetaDataProviderIdl"
           Condition="'@(Page)@(ApplicationDefinition)' != '' and '$(XamlLanguage)' == 'CppWinRT' and '$(CppWinRTAddXamlMetaDataProviderIdl)' == 'true'">
-    <PropertyGroup>
-      <_DisableReferences>false</_DisableReferences>
-      <_DisableReferences Condition="('$(CppWinRTOverrideSDKReferences)' != 'true') and ('$(TargetPlatformVersion)' &lt; '10.0.18310.0')">true</_DisableReferences>
-    </PropertyGroup>
-
     <CreateXamlMetadataProviderIdlFile OutputFile="$(XamlMetaDataProviderIdl)" RootNamespace="$(RootNamespace)"
-                                       XamlNamespace="$(XamlNamespace)" DisableReferences="$(_DisableReferences)"
-                                       WriteOnlyWhenDifferent="$(CppWinRTWriteOnlyWhenDifferent)" />
+                                       WriteOnlyWhenDifferent="$(CppWinRTWriteOnlyWhenDifferent)"
+                                       XamlNamespace="$(XamlNamespace)" />
   </Target>
 
   <!--If building any Xaml content, write XamlMetaDataProvider cpp file -->
