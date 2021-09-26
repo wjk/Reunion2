@@ -63,6 +63,7 @@ public sealed class CreateXamlMetadataProviderIdlFile : Task
         }
 
         output.AppendLine($"    runtimeclass XamlMetaDataProvider : [default] {XamlNamespace}.Markup.IXamlMetadataProvider");
+        output.AppendLine("    {");
         output.AppendLine("        XamlMetaDataProvider();");
         output.AppendLine("    }");
         output.AppendLine("}");
