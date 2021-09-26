@@ -15,8 +15,11 @@ internal static class ExtensionMethods
     /// <param name="builder">
     /// The <see cref="CommandLineBuilder"/> to modify.
     /// </param>
-    /// <param name="flag">
+    /// <param name="switch">
     /// The switch to append to the command line.
+    /// </param>
+    /// <param name="flag">
+    /// Whether or not the switch should be appended.
     /// </param>
     internal static void AppendSwitchIfTrue(this CommandLineBuilder builder, string @switch, bool flag)
     {
