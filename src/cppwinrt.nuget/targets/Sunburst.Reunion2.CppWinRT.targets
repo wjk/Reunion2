@@ -416,7 +416,7 @@
     </PropertyGroup>
 
     <CreateXamlMetadataProviderIdlFile OutputFile="$(XamlMetaDataProviderIdl)" RootNamespace="$(RootNamespace)"
-                                       XamlNamespce="$(XamlNamespace)" DisableREferences="$(_DisableReferences)"
+                                       XamlNamespace="$(XamlNamespace)" DisableReferences="$(_DisableReferences)"
                                        WriteOnlyWhenDifferent="$(CppWinRTWriteOnlyWhenDifferent)" />
   </Target>
 
