@@ -47,7 +47,6 @@
     <CppWinRTEnablePlatformProjection Condition="'$(CppWinRTEnablePlatformProjection)' == ''">true</CppWinRTEnablePlatformProjection>
     <CppWinRTEnableReferenceProjection Condition="'$(CppWinRTEnableReferenceProjection)' == ''">true</CppWinRTEnableReferenceProjection>
 
-    <GeneratedFilesDir Condition="'$(GeneratedFilesDir)' == ''">$(IntDir)Generated Files\</GeneratedFilesDir>
     <!--Override SDK's uap.props setting to ensure version-matched headers-->
     <CppWinRT_IncludePath>$(GeneratedFilesDir)</CppWinRT_IncludePath>
     <!--TEMP: Override NuGet SDK's erroneous setting in uap.props -->

@@ -12,6 +12,8 @@
     <!--Set a value to prevent SDK's uap.props from setting it and pointing to the wrong headers-->
     <CppWinRT_IncludePath>PreventSdkUapPropsAssignment</CppWinRT_IncludePath>
     <CppWinRTEnableDefaultCopyLocalFalse Condition="'$(CppWinRTEnableDefaultCopyLocalFalse)' == ''">true</CppWinRTEnableDefaultCopyLocalFalse>
+
+    <GeneratedFilesDir Condition="'$(GeneratedFilesDir)' == ''">$(IntDir)Generated Files\</GeneratedFilesDir>
   </PropertyGroup>
 
   <ItemDefinitionGroup>
