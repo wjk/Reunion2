@@ -733,7 +733,7 @@
       <_CppwinrtCompRefs Include="@(CppWinRTPlatformWinMDReferences)"/>
     </ItemGroup>
 
-    <CppWinRT ToolLocation="'$(CppWinRTPath)" OutputDirectory="$(GeneratedFilesDir)"
+    <CppWinRT ToolLocation="$(CppWinRTPath)" OutputDirectory="$(GeneratedFilesDir)"
               ComponentOutputDirectory="$(GeneratedFilesDir)Sources" PrecompiledHeaderPath="$(CppWinRTPrecompiledHeader)"
               InputFiles="@(_CppwinrtCompInputs)" ReferenceFiles="@(_CppWinrtCompRefs)"
               RootNamespace="$(RootNamespace)" UsePrefixes="$(CppWinRTUsePrefixes)" Optimize="$(CppWinRTOptimized)"
