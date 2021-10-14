@@ -4,6 +4,7 @@
     "settings": {
         "documentationRules": {
             "companyName": "William Kent",
+            "copyrightText": "Copyright (c) {companyName}. Licensed under the MIT license.\nSee the LICENSE file in the repository root for details.",
             "fileNamingConvention": "metadata",
             "xmlHeader": false
         },
