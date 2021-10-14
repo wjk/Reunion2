@@ -34,7 +34,7 @@
 
   <!-- ============== C++ support ============== -->
   <PropertyGroup>
-    <CppPlatform Condition="'$(Platform)' == '' or  '$(Platform)' == 'Any CPU'">x64</CppPlatform>
+    <CppPlatform Condition="'$(Platform)' == '' or  '$(Platform)' == 'Any CPU' or '$(Platform)' == 'AnyCPU'">x64</CppPlatform>
     <CppPlatform Condition="'$(Platform)' == 'x64'">x64</CppPlatform>
     <CppPlatform Condition="'$(Platform)' == 'x86'">Win32</CppPlatform>
   </PropertyGroup>
