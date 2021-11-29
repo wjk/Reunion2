@@ -1,3 +1,0 @@
-<Project>
-  <Import Project="cppwinrt.fast_forwarder.vcxproj" />
-</Project>
